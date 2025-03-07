@@ -1,0 +1,83 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}Planning
+{% endblock %}
+{% block style %}
+	<style>
+		.card {
+			font-size: 0.85rem;
+		}
+
+		.card-header,
+		.card-body {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	</style>
+{% endblock %}
+{% block main %}
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered align-middle caption-top minitable ">
+			<caption>
+				<div class="d-flex f flex-md-row justify-content-md-around align-items-center">
+					<a href="{{ path('viewPlanning', {week: week_number - 1}) }}" class="btn btn-primary btn-sm mb-2 d-flex align-items-center">
+						<i class="fa-solid fa-circle-chevron-left"></i>
+						<span class="d-none d-md-inline ms-1">Semaine Précédente</span>
+					</a>
+					<h2 class="mb-2 mx-4 text-center fs-5 fs-md-4">
+						Planning semaine
+						{{ week_number }}
+					</h2>
+					<a href="{{ path('viewPlanning', {week: week_number + 1}) }}" class="btn btn-primary btn-sm mb-2 d-flex align-items-center">
+						<span class="d-none d-md-inline me-1">Semaine Suivante</span>
+						<i class="fa-solid fa-circle-chevron-right"></i>
+					</a>
+				</div>
+			</caption>
+			<thead class="table-dark">
+				<tr>
+					<th scope="col">Collaborateurs</th>
+					<th scope="col">
+						Lundi
+						{{ date_lundi }}
+					</th>
+					<th scope="col">
+						Mardi
+						{{ date_mardi }}
+					</th>
+					<th scope="col">
+						Mercredi
+						{{ date_mercredi }}
+					</th>
+					<th scope="col">
+						Jeudi
+						{{ date_jeudi }}
+					</th>
+					<th scope="col">
+						Vendredi
+						{{ date_vendredi }}
+					</th>
+				</tr>
+			</thead>
+			<tbody {{ stimulus_controller('planning', {week: week_number} ) }}>
+				{% for user in users %}
+					<tr>
+						<th scope="row">
+							{% if user.image %}
+								<img class="rounded-circle border shadow" style="width: 50px;
+									                                            height: 50px;
+									                                            object-fit: cover" alt="Avatar user" src="{{ asset('upload/' ~ user.image) }}">
+							{% endif %}
+							{{ user.firstName|first }}.{{ user.lastName }}
+						</th>
+						<td class="planning-td" data-planning-target="day" data-date="{{ date_lundi }}" data-user="{{ user.id }}"></td>
+						<td class="planning-td" data-planning-target="day" data-date="{{ date_mardi }}" data-user="{{ user.id }}"></td>
+						<td class="planning-td" data-planning-target="day" data-date="{{ date_mercredi }}" data-user="{{ user.id }}"></td>
+						<td class="planning-td" data-planning-target="day" data-date="{{ date_jeudi }}" data-user="{{ user.id }}"></td>
+						<td class="planning-td" data-planning-target="day" data-date="{{ date_vendredi }}" data-user="{{ user.id }}"></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

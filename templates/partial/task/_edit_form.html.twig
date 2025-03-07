@@ -1,0 +1,17 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% block main %}
+    <turbo-frame id="frameTaskForm">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="form-container  p-4 rounded shadow">
+                    {{ form_start(form, {'attr': {'class': 'futuristic-form', 'data-turbo-frame': 'card-activity-' ~ activity.id }}) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    </turbo-frame>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% block tasks_styles %}
+<style>
+/* Conteneur général des tâches */
+.task-container {
+  padding: 0.5rem;
+}
+
+/* Carte de tâche */
+.task-card {
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease-in-out;
+  /* Laisse la couleur de fond gérée par Twig (inline style) */
+}
+
+/* Poignée draggable */
+.task-handle {
+  cursor: grab; /* Indique qu'on peut le faire glisser */
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Survol de la poignée */
+.task-handle:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Contenu de la tâche (formulaires, détails, etc.) */
+.task-content {
+  padding: 0.75rem;
+}
+
+/* Icône de partage retourné */
+.task-handle i.fa-share {
+  transform: scaleX(-1);
+}
+
+/* Chevron transition */
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+/* Images des collaborateurs */
+.collaborator-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+/* Sur mobile, on resserre un peu les padding */
+@media (max-width: 576px) {
+  .task-handle, .task-content {
+    padding: 0.5rem;
+  }
+}
+</style>
+{% endblock %}
+
+<div class="task-container">
+  {% for task in tasks|sort((a, b) => a.endDateForecast <=> b.endDateForecast) %}
+    {% set type_bg = type_background_colors[task.typeOfTask.label] %}
+    {% set type_border = type_border_colors[task.typeOfTask.label] %}
+
+    {% if task.state.label != 'Terminé' and task.state.label != 'Annulé' %}
+      <section class="task-card pick-animation text-white"
+               style="
+                 background-color: {{ type_bg }};
+                 color: {{ type_border }};
+               ">
+
+        {# ------------------ Poignée Draggable ------------------ #}
+        <div class="task-handle fc-event"
+             data-event='{"duration":"01:00:00", "title":"{{ task.name }}", "id":"{{ task.id }}"}'>
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <div class="d-flex align-items-center mb-2 mb-md-0" style="flex: 1; min-width: 0;">
+              <i class="fa-solid fa-share me-2 d-none d-md-block" style="color: {{ type_border }};"></i>
+              <strong title="{{ task.name }}" class="text-truncate text-center" style="flex: 1; min-width: 0; color: {{ type_border }};">
+                {{ task.name }}
+              </strong>
+            </div>
+            <button class="btn p-0 ms-2"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#details-{{ task.id }}"
+                    aria-expanded="false"
+                    aria-controls="details-{{ task.id }}">
+              <i class="fa-solid fa-chevron-down chevron"></i>
+            </button>
+          </div>
+        </div>
+
+        {# ------------------ Contenu Cliquable ------------------ #}
+        <div class="task-content">
+          <ul class="list-unstyled text-center mb-0">
+          <!-- Collaborateurs -->
+            <li class="list-unstyled text-truncate">
+              <div class="justify-content-center ms-3 collaborator-container">
+                {% if task.assignments|length > 0 %}
+                  <div class="d-flex flex-wrap justify-content-center">
+                    {% for assignment in task.assignments %}
+                      {% set collaborator = assignment.collaborator %}
+                      <div class="collaborator-wrapper me-2 mb-2" data-name="{{ collaborator.firstName }} {{ collaborator.lastName }}">
+                        <img value="{{ collaborator.id }}"
+                             src="{{ asset('upload/' ~ collaborator.image) }}"
+                             alt="{{ collaborator.firstName }}"
+                             class="collaborator-img">
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <span class="text-muted">Pas de collaborateur</span>
+                {% endif %}
+              </div>
+            </li>
+
+            <!-- Date / Durée -->
+            <li class="list-unstyled text-truncate">
+              <strong class="text-dark">{{ task.TotalDueTaskDurationAsString }} / {{ task.DurationForecastAsString }}</strong>
+              -
+              <strong style="color: {{ type_border }}">
+                Fin : {{ task.endDateForecast|format_datetime(locale = 'fr', pattern = 'dd MMM y') }}
+              </strong>
+            </li>
+
+            <!-- Formulaire d'état -->
+            <li class="list-unstyled align-items-center text-truncate">
+              <form action="{{ path('updateStateFromDashboard', {id: task.id}) }}"
+                    class="formulaire d-flex align-items-center justify-content-center ms-3"
+                    method="post">
+                <label for="state-select-{{ task.id }}" class="visually-hidden">État</label>
+
+                {% set state_bg = style_state[task.state.label] %}
+                {% set state_tc = text_state[task.state.label] %}
+
+                <select name="state-select"
+                        id="state-select-{{ task.id }}"
+                        class="form-control"
+                        style="
+                          color: {{ state_tc }};
+                          background-color: #ffffff;
+                        ">
+                  {% for state in states %}
+                    <option value="{{ state.id }}" {{ task.state.id == state.id ? 'selected' : '' }}>
+                      {{ state.label }}
+                    </option>
+                  {% endfor %}
+                </select>
+
+                <button type="submit" class="btn ms-1"
+                        style="
+                          color: {{ state_tc }};
+                          background-color: {{ state_bg }};
+                          border-color: {{ state_tc }};
+                        ">
+                  <i class="fa-solid fa-location-arrow"></i>
+                </button>
+              </form>
+            </li>
+
+            <!-- Accordion détails -->
+            <section id="details-{{ task.id }}" class="collapse text-dark">
+              <div>
+                <li class="list-unstyled text-truncate" title="{{ task.description ? task.description : 'N/A' }}">
+                  Description :
+                  <strong>{{ task.description ? task.description : 'N/A' }}</strong>
+                </li>
+                <li class="list-unstyled text-truncate">
+                  Activité :
+                  <strong>{{ task.activity ? task.activity : 'N/A' }}</strong>
+                </li>
+                <li class="list-unstyled text-truncate">
+                  Type :
+                  <strong>{{ task.typeOfTask.label }}</strong>
+                </li>
+              </div>
+            </section>
+          </ul>
+        </div>
+      </section>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Gère l'ouverture/fermeture de l'accordion
+    document.querySelectorAll('button[data-bs-toggle="collapse"]').forEach(function (button) {
+      const collapseTargetId = button.getAttribute('data-bs-target');
+      const target = document.querySelector(collapseTargetId);
+
+      target.addEventListener('shown.bs.collapse', function () {
+        const icon = button.querySelector('i');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+      });
+
+      target.addEventListener('hidden.bs.collapse', function () {
+        const icon = button.querySelector('i');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+      });
+    });
+  });
+</script>

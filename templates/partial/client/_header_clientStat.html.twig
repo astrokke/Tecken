@@ -1,0 +1,59 @@
+<div class="contour row align-items-center flex-grow-1">
+  <div class="col-12 col-md-2 d-flex justify-content-center align-items-center mb-3 mb-md-0">
+    {% if activity.client is not empty %}
+      <img class="img-fluid shadow"
+           style="max-width: 80%"
+           src="{{ asset('upload/' ~ activity.client.image) }}"
+           alt="Client: {{ activity.client.socialReason }}"
+           aria-labelledby="client-name">
+    {% endif %}
+  </div>
+  <div class="col-12 col-md-10">
+    <div class="d-flex flex-column flex-md-row justify-content-around align-items-center">
+      <div class="text-center text-md-start mb-3 mb-md-0">
+        <h2 id="activity-name">{{ activity.name }}</h2>
+        <div class="d-flex flex-column flex-md-row align-items-center">
+          <div class="mb-2 mb-md-0">
+            <i class="fa-solid fa-user" style="color:#003350" aria-hidden="true"></i>
+            {% if activity.client is not empty %}
+              <span id="client-name" class="ms-2 minispan">{{ activity.client.socialReason }}</span>
+            {% else %}
+              <span class="ms-2 minispan">{{ activity.name }}</span>
+            {% endif %}
+          </div>
+          <div class="ms-md-3">
+            {% if activity.client is not empty %}
+              <i class="fa-solid fa-envelope mx-2" style="color:#003350" aria-hidden="true"></i>
+              <span class="minispan">
+                <a href="mailto:{{ activity.client.mail }}" aria-label="Email {{ activity.client.socialReason }}">
+                  {{ activity.client.mail }}
+                </a>
+              </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 justify-content-start d-flex px-4 collaborator-container" aria-label="Collaborators">
+        {% set displayed_collaborators = [] %}
+        {% for task in activity.getTasks() %}
+          {% for assignment in task.getAssignments() %}
+            {% set collaborator = assignment.getCollaborator() %}
+            {% if collaborator.id not in displayed_collaborators %}
+              <div class="collaborator-wrapper"
+                   data-name="{{ collaborator.firstName }} {{ collaborator.lastName }}"
+                   role="img"
+                   aria-label="Collaborator: {{ collaborator.firstName }} {{ collaborator.lastName }}">
+                <img src="{{ asset('upload/' ~ collaborator.image) }}"
+                     class="collaborator-img rounded-circle"
+                     alt=""
+                     aria-hidden="true">
+              </div>
+              {% set displayed_collaborators = displayed_collaborators|merge([collaborator.id]) %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<hr>

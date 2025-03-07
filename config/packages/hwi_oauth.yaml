@@ -1,0 +1,15 @@
+# config/packages/hwi_oauth.yaml
+hwi_oauth:
+    resource_owners:
+        azure:
+            type:          azure
+            client_id:     '%env(string:AZURE_ID)%'
+            client_secret: '%env(string:AZURE_SECRET)%'
+            paths:
+                identifier: email
+            
+
+            options:
+                csrf: true
+                application: '%env(string:AZURE_APPLICATION)%'
+                scope: openid profile User.Read email

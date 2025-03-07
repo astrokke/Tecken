@@ -1,0 +1,15 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}Login{% endblock %}
+{% block header %}{% endblock %}
+{% block main %}
+        <img class="p-0 m-0 position-fixed"src="{{ asset("img/test.jpg") }}"alt="fond d'écran">
+<aside class=" bglog start-50 w-50 h-100 position-absolute">
+    <div class="col-lg-8 col-md-6">
+        <img src="{{ asset("img/tecken_full.webp") }}" alt="Logo de Diginamic" class="img-fluid imglog mb-4 ">
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center col-lg-8 col-md-8 col-sm-10 col-12 w-100 h-75">
+        <h1 class="text-center display-2   mb-5"><span class="fw-bold teck">Teck</span><span class="fw-bold time">Time</span></h1>
+        <a class="btn  d-flex gap-4 justify-content-center align-items-center  fw-semibold w-50 btn-connect" href="{{ path('hwi_oauth_service_redirect', {service: 'azure'}) }}"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class='microsoft-icon' width="50" height="50" style='margin-right: 10%;' viewBox="0 0 48 48 "> <defs><linearGradient id="K7_evwOeO6UmBZr1zxGzda_YJfJ0JM5Imsj_gr1" x1="6" x2="22" y1="14" y2="14" data-name="ÐÐµÐ·ÑÐ¼ÑÐ½Ð½ÑÐ¹ Ð³ÑÐ°Ð´Ð¸ÐµÐ½Ñ 16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f44f5a"></stop><stop offset=".44" stop-color="#ee3d4a"></stop><stop offset="1" stop-color="#e52030"></stop></linearGradient><linearGradient id="K7_evwOeO6UmBZr1zxGzdb_YJfJ0JM5Imsj_gr2" x1="56.6" x2="23.63" y1="14" y2="14" data-name="ÐÐµÐ·ÑÐ¼ÑÐ½Ð½ÑÐ¹ Ð³ÑÐ°Ð´Ð¸ÐµÐ½Ñ 10" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#21ad64"></stop><stop offset="1" stop-color="#088242"></stop></linearGradient><linearGradient id="K7_evwOeO6UmBZr1zxGzdc_YJfJ0JM5Imsj_gr3" x1="48.68" x2="20.72" y1="34" y2="34" data-name="ÐÐµÐ·ÑÐ¼ÑÐ½Ð½ÑÐ¹ Ð³ÑÐ°Ð´Ð¸ÐµÐ½Ñ 11" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fede00"></stop><stop offset="1" stop-color="#ffd000"></stop></linearGradient><linearGradient id="K7_evwOeO6UmBZr1zxGzdd_YJfJ0JM5Imsj_gr4" x1="6" x2="22" y1="34" y2="34" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#33bef0"></stop><stop offset="1" stop-color="#22a5e2"></stop></linearGradient></defs><path fill="url(#K7_evwOeO6UmBZr1zxGzda_YJfJ0JM5Imsj_gr1)" d="m22,22H6V6h16v16Z"></path><path fill="url(#K7_evwOeO6UmBZr1zxGzdb_YJfJ0JM5Imsj_gr2)" d="m42,22h-16V6h16v16Z"></path><path fill="url(#K7_evwOeO6UmBZr1zxGzdc_YJfJ0JM5Imsj_gr3)" d="m42,42h-16v-16h16v16Z"></path><path fill="url(#K7_evwOeO6UmBZr1zxGzdd_YJfJ0JM5Imsj_gr4)" d="m22,42H6v-16h16v16Z"></path></svg>Se connecter</a>
+    </div>
+</aside>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}Profil de {{ user.firstName }} {{ user.lastName }}{% endblock %}
+{% block main %}
+    <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="profile-card p-4">
+                    <div class="row">
+                        <div class="col-md-4 border-img text-center">
+                            {% if user.image %}
+                                <img src="{{ asset('upload/' ~ user.image) }}"
+                                     alt="Profile Image"
+                                     class="profile-image mb-3">
+                            {% else %}
+                                <img src="{{ asset("images/default-avatar.png") }}"
+                                     alt="Default Avatar"
+                                     class="profile-image mb-3">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="profile-info">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        <strong>Prénom</strong>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{ user.firstName }}"
+                                               readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        <strong>Nom</strong>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               class="form-control mt-2"
+                                               value="{{ user.lastName }}"
+                                               readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        <strong>Téléphone</strong>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{ user.phoneNumber ?: '-- -- -- -- --' }}"
+                                               readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        <strong>E-mail</strong>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" value="{{ user.mail }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">
+                                        <strong>Intitulé du poste</strong>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{ user.job ?: 'Non renseigné' }}"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ path('editUser', {id: user.id}) }}"
+                               class="btn btn-profils mt-3">Modifier le profil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

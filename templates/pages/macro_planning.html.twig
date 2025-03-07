@@ -1,0 +1,57 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}Macro Planning
+{% endblock %}
+{% block main %}
+	<div {{ stimulus_controller('macro_planning', {date: date|date('Y-m') } ) }} class="table-responsive p-0 w-100 macro-planning-container">
+		{{ include("partial/macro_planning/_modal.html.twig") }}
+		<table class="table table-striped table-bordered align-middle caption-top minitable">
+
+			<caption>
+				<div class="d-flex justify-content-around">
+					<a href="{{ path('viewMacroPlanning', {month: date|date_modify('-1month') |date('m'), year: date|date_modify('-1month')|date('Y')}) }}">
+						<button class="btn btn-primary">
+							<i class="fa-solid fa-circle-chevron-left"></i>
+							Mois Précédent
+						</button>
+					</a>
+					<h2 class="">Macro Planning</h2>
+					<a href="{{ path('viewMacroPlanning', {month: date|date_modify('+1month') |date('m'), year: date|date_modify('+1month')|date('Y')}) }}">
+						<button class="btn btn-primary">
+							Mois Suivant
+							<i class="fa-solid fa-circle-chevron-right"></i>
+						</button>
+					</a>
+				</div>
+			</caption>
+			<thead class="table-dark">
+				<tr>
+					<th scope="col" class="col-1">Activités</th>
+					<th scope="col" class="col-1">{{ date|date("M-y") }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+1month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+2month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+3month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+4month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+5month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+6month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+7month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+8month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+9month") |date('M-y') }}</th>
+					<th scope="col" class="col-1">{{ date|date_modify("+10month") |date('M-y') }}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for activity in activities %}
+					<tr>
+						<th scope="row">
+							<h3>{{ activity.name }}</h3>
+							<a class="btn btn-primary" href="{{ path('addMilestone', {id: activity.id}) }}">
+								<i class="fa-solid fa-plus"></i>
+								milestone</a>
+						</th>
+						<td colspan="11" class="macro-planning-td" data-macro-planning-target="row" data-activity="{{ activity.id }}"></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

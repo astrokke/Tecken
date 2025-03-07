@@ -1,0 +1,51 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+    <section class="dashboard-container container-fluid p-4 bg-body-tertiary shadow-sm rounded">
+        {{ include("partial/dashboard/_header.html.twig") }}
+        <nav class="navbar navbar-expand-md navbar-light bg-white rounded mt-4 p-2 shadow-sm">
+            <div class="container-fluid justify-content-center">
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#dashboardNav"
+                        aria-controls="dashboardNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse text-center" id="dashboardNav">
+                    <ul class="navbar-nav mx-auto gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.get('view') == 'calendar' %}active text-primary{% else %}text-muted{% endif %}"
+                               href="{{ path('dashboard', {view: 'calendar'}) }}">Calendrier</a>
+                        </li>
+                        {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if app.request.get('view') == 'manager' %}active text-primary{% else %} text-muted{% endif %}"
+                                   href="{{ path('dashboard', {view: 'manager'}) }}">Statistiques</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.get('view') == 'myStat' %}active text-primary{% else %} text-muted{% endif %}"
+                               href="{{ path('dashboard', {view: 'myStat', id: user.id}) }}">Mes Statistiques</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="content-container mt-4">
+            {% if app.request.get('view') == 'manager' and (is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR')) %}
+                <div>{{ include("partial/dashboard/_manager.html.twig") }}</div>
+            {% elseif app.request.get('view') == 'myStat' %}
+                {% if app.user and app.request.get('id') == app.user.id %}
+                    <div>{{ include("partial/dashboard/_myStat.html.twig") }}</div>
+                {% else %}
+                    <div class="alert alert-warning">Accès refusé. Vous ne pouvez voir que vos propres statistiques.</div>
+                {% endif %}
+            {% else %}
+                <div>{{ include("partial/dashboard/_due_task.html.twig") }}</div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

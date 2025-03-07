@@ -1,0 +1,50 @@
+{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+    <div class="container-fluid">
+        <div class="border card card-modern">
+            <div class="row card-body d-flex justify-content-between align-items-stretch">
+                <div class="col-md-6 d-flex flex-column h-100">
+                    <turbo-frame id="assignmentRate">
+                    {{ include("partial/dashboard/_assignmentRate.html.twig") }}
+                    </turbo-frame>
+                </div>
+                <div class="col-md-6 d-flex flex-column h-100">
+                    <turbo-frame id="csvExport">
+                    {{ include("partial/dashboard/_taskStatistics.html.twig") }}
+                    </turbo-frame>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="row">
+                    <!-- Bloc facturation en 'mois', 'semaine', 'année' -->
+                    <div class="col-md-6 d-flex align-items-stretch">
+                        <div class="border card card-modern w-100 d-flex flex-column">
+                            <turbo-frame id="billableStats">
+                            {{ include("partial/dashboard/_billableStats.html.twig") }}
+                            </turbo-frame>
+                        </div>
+                    </div>
+                    <!-- Bloc "Tâches réalisées en 'semaine', 'mois', 'année' " -->
+                    <div class="col-md-6 d-flex align-items-stretch">
+                        <div class="border card card-modern w-100 d-flex flex-column">
+                            <turbo-frame id="activitiesStats">
+                            {{ include("partial/dashboard/_activitiesStats.html.twig") }}
+                            </turbo-frame>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3 mt-3">
+                <div class="border card card-modern">
+                    <div class="card-body">
+                        <h2 class="mb-3">
+                            <strong>Productivité globale des activités</strong>
+                        </h2>
+                        <div class="row align-items-center">
+                            <div class="col-12">{{ render_chart(datasAllActivities) }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

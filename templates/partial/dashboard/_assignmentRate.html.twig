@@ -1,0 +1,99 @@
+<turbo-frame id="assignmentRate">
+<!-- Premier Bloc -->
+<div class="card shadow-sm mb-4 h-100">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Taux d'affectation global</h3>
+        <small>{{ periodLabel }}</small>
+    </div>
+    <div class="card-body h-100 d-flex flex-column">
+        <div class="d-flex flex-wrap mt-2">
+            {% for activity in globaleAffectation %}
+                <div class="d-flex align-items-center ms-3 mb-1">
+                    <div style="width: 15px;
+                                height: 10px;
+                                background-color: {{ activity.color }}"></div>
+                    <span class="ms-2">{{ activity.activity }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <span>Affectation de l'équipe Tecken</span>
+        <div class="progress" style="height: 30px;">
+            {% for activity in globaleAffectation %}
+                <div class="progress-bar progress-bar-striped"
+                     role="progressbar"
+                     style="width: {{ activity.percentage }}%;
+                            background-color: {{ activity.color }}"
+                     aria-valuenow="{{ activity.percentage }}"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="top"
+                     title="{{ activity.activity }}: {{ activity.percentage }}%">{{ activity.percentage }}%</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+        <button class="btn btn-outline-primary"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#assignmentRatesOffcanvas"
+                aria-controls="assignmentRatesOffcanvas">Voir détails</button>
+        <div class="btn-group">
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'week', weekOffset: weekOffset - 1}) }}"
+               class="btn btn-outline-primary btn-sm"><</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'week', weekOffset: 0}) }}"
+               class="btn btn-outline-primary btn-sm">Semaine</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'week', weekOffset: weekOffset + 1}) }}"
+               class="btn btn-outline-primary btn-sm">></a>
+        </div>
+    </div>
+</div>
+<!-- Deuxième Bloc (Offcanvas) -->
+<div class="offcanvas offcanvas-end w-40"
+     tabindex="-1"
+     id="assignmentRatesOffcanvas"
+     aria-labelledby="assignmentRatesOffcanvasLabel">
+    <div class="offcanvas-header">
+        <div>
+            <h5 id="assignmentRatesOffcanvasLabel">Taux d'affectation individuel</h5>
+            <span>{{ periodLabel }}</span>
+        </div>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="color-legend ms-3 mb-3">
+            <ul class="list-inline">
+                {% for activity in globaleAffectation %}
+                    <li class="list-inline-item mb-3">
+                        <span class="badge text-white"
+                              style="background-color: {{ activity.color }}">{{ activity.activity }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <turbo-frame id="individualAssignmentRates">
+        {% for rate in individualAffectation %}
+            <div class="user-rate-item mb-3">
+                <span class="fw-bold">{{ rate.user.firstName }} {{ rate.user.lastName }}</span>
+                <div class="progress mt-2">
+                    {% for activity in rate.activities %}
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width: {{ activity.percentage }}%;
+                                    background-color: {{ activity.color }}"
+                             aria-valuenow="{{ activity.percentage }}"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             data-bs-toggle="tooltip"
+                             data-bs-placement="top"
+                             title="{{ activity.activity }} : {{ activity.time }}H"></div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </turbo-frame>
+    </div>
+</div>
+</turbo-frame>

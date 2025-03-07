@@ -1,0 +1,40 @@
+<turbo-frame id="billableStats">
+<h2 class="mb-3">
+    <strong>Nombre d'heures effectuées</strong>
+</h2>
+<span>{{ periodLabel }}</span>
+<div class="card-body">
+    <div class="row align-items-center">
+        <div class="col-12">{{ render_chart(billableChart) }}</div>
+    </div>
+    <div class="mt-3 text-center">
+        <!-- Boutons pour la vue semaine -->
+        <div class="btn-group mb-2">
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'week', weekOffset: weekOffset - 1}) }}"
+               class="btn btn-stat text-white btn-sm"><</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'week', weekOffset: 0}) }}"
+               class="btn btn-stat text-white btn-sm">Semaine</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'week', weekOffset: weekOffset + 1}) }}"
+               class="btn btn-stat text-white btn-sm">></a>
+        </div>
+        <!-- Boutons pour la vue mois -->
+        <div class="btn-group mb-2">
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'month', monthOffset: monthOffset - 1}) }}"
+               class="btn btn-stat text-white btn-sm"><</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'month', monthOffset: 0}) }}"
+               class="btn btn-stat text-white btn-sm">Mois</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'month', monthOffset: monthOffset + 1}) }}"
+               class="btn btn-stat text-white btn-sm">></a>
+        </div>
+        <!-- Boutons pour la vue année -->
+        <div class="btn-group mb-2">
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'year', yearOffset: yearOffset - 1}) }}"
+               class="btn btn-stat text-white btn-sm"><</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'year'}) }}"
+               class="btn btn-stat text-white btn-sm">Année</a>
+            <a href="{{ path('dashboard', {view: 'manager', periodView: 'year', yearOffset: yearOffset + 1}) }}"
+               class="btn btn-stat text-white btn-sm">></a>
+        </div>
+    </div>
+</div>
+</turbo-frame>

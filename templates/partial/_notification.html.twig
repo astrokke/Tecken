@@ -1,0 +1,90 @@
+{% if notificationsBeforeDl is empty and notificationsDl is empty %}
+    <button type="button"
+            class="btn btn-primary position-relative"
+            data-bs-toggle="modal"
+            data-bs-target="#notification">
+        <i class="fa-solid fa-bell"></i>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade"
+         id="notification"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Notifications</h1>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Aucune notifications !</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <button type="button"
+            class="btn btn-primary position-relative"
+            data-bs-toggle="modal"
+            data-bs-target="#notification">
+        <i class="fa-solid fa-bell fa-shake"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ countNotif }}
+            <span class="visually-hidden">Notifications non lues</span>
+        </span>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade"
+         id="notification"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title w-100 text-center fs-5" id="exampleModalLabel">Notifications</h1>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% for notification_past_dl in notificationsDl %}
+                        <div class="d-flex align-items-start mb-3 p-2 border rounded text-truncate">
+                            <div class="me-3">
+                                <i class="fa-solid fa-triangle-exclamation" style="color: #e01b24;"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold mb-1">Tâche : {{ notification_past_dl.name }}</div>
+                                <div>
+                                    <span class="text-muted">a dépassée le délais - {{ notification_past_dl.endDateForecast|format_datetime(locale = 'fr', pattern = 'dd MMM y') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% for notification_before_dl in notificationsBeforeDl %}
+                        <div class="d-flex align-items-start mb-3 p-2 border rounded">
+                            <div class="me-3">
+                                <i class="fa-solid fa-triangle-exclamation" style="color: #FFD43B;"></i>
+                            </div>
+                            <div class="flex-grow-1 text-truncate">
+                                <div class="fw-bold mb-1">Tâche : {{ notification_before_dl.name }}</div>
+                                <div>
+                                    <span class="text-muted">doit être terminé avant le {{ notification_before_dl.endDateForecast|format_datetime(locale = 'fr', pattern = 'dd MMM y') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

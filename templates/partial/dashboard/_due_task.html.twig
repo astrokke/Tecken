@@ -1,0 +1,75 @@
+{% set style_state = {"Non débuté": "#d3d3d3", "En cours": "#fffacd", "Terminé": "#d4edda", "Annulé": "rgba(233, 233, 233, 0.7)"} %}
+{% set text_state = {"Non débuté": "#808080", "En cours": "#ffa500", "Terminé": "#155724", "Annulé": "#5e5c64"} %}
+{% set type_background_colors = {
+    "Développement": "#e6f6ff",
+    "Conception": "#d0f4de",
+    "Maintenance": "#ff99c8",
+    "Veille Technologique": "#fcf6bd",
+    "Régie": "#e4c1f9",
+    "Réunion": "#fec8c3",
+    "Autres": "#e5e5e5"
+} %}
+{% set type_border_colors = {
+    "Développement": "#00537a",
+    "Conception": "#06d6a0",
+    "Maintenance": "#b9375e",
+    "Veille Technologique": "#ffd166",
+    "Régie": "#6a4c93",
+    "Réunion": "#ff7b00",
+    "Autres": "#5F5F5F"
+} %}
+<section class="container-fluid" {{ stimulus_controller("calendar") }}>
+    <div class="container-fluid">
+        <div class="d-flex">
+            <!-- Offcanvas -->
+            <div class="offcanvas offcanvas-end"
+                 id="offcanvasTaskList"
+                 tabindex="-1"
+                 aria-labelledby="offcanvasTaskListLabel"
+                 data-bs-scroll="true"
+                 data-bs-backdrop="false">
+                <div class="offcanvas-header bg-primary text-white">
+                    <h5 class="offcanvas-title w-100 text-center" id="offcanvasTaskListLabel">Tâches à glisser</h5>
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Fermer"></button>
+                </div>
+                <div class="offcanvas-body p-3">
+                    <div class="card-body"
+                         id="external-events"
+                         data-calendar-target="externalEvents">
+                        {{ include("partial/dashboard/_tasks.html.twig") }}
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar -->
+            <div class="flex-grow-1">{{ include("partial/dashboard/_calendar.html.twig") }}</div>
+        </div>
+    </div>
+</section>
+{% block styles %}
+    <style>
+/* ===== Offcanvas Responsive ===== */
+/* Large écrans : offcanvas d’une largeur fixe */
+@media (min-width: 992px) {
+    #offcanvasTaskList.offcanvas-end {
+        width: 360px; /* Ajuste la largeur selon tes préférences */
+    }
+}
+
+/* Sur mobile (moins de 992px), l'offcanvas prend toute la largeur */
+@media (max-width: 991px) {
+    #offcanvasTaskList.offcanvas-end {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Style général de l'offcanvas */
+.offcanvas {
+    box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+    border-left: 1px solid #dee2e6;
+}
+    </style>
+{% endblock %}

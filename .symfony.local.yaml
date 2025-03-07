@@ -1,0 +1,7 @@
+workers:
+  typescript:
+    cmd: ['symfony', 'console', 'typescript:build', '--watch']
+  sass:
+    cmd: ['symfony', 'console', 'sass:build', '--watch']
+  asset-mapper-custom:
+    cmd: ['./assetmapper-compile.sh']

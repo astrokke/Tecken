@@ -1,0 +1,25 @@
+<div class="collaborators">
+    {% for assignment in task.assignments %}
+        <div class="collaborator-item d-flex btngroupe justify-content-between align-items-center">
+            <div class="col-md-6 my-2">
+                <img value="{{ assignment.getCollaborator().id }}"
+                     src="{{ asset('upload/' ~ assignment.getCollaborator().image) }}"
+                     alt="{{ assignment.getCollaborator().firstName }}"
+                     class="collaborator-img mx-2 rounded-circle">
+                <span class="badge-type">{{ assignment.getCollaborator().getFirstName() }} {{ assignment.getCollaborator().getLastName() }} :</span>
+            </div>
+            {% set totalTime = 0 %}
+            {% for dueTask in assignment.getDueTasks() %}
+                {% set taskDuration = (dueTask.getEndHour().getTimestamp() - dueTask.getStartHour().getTimestamp()) / 3600 %}
+                {% set totalTime = totalTime + taskDuration %}
+            {% endfor %}
+            <div class="col-md-6 d-flex colabobtn justify-content-end align-items-center px-2">
+                <span class="text-bold">{{ totalTime|number_format(2) }} H</span>
+                {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') and assignment.getDueTasks() is empty %}
+                    <!-- Delete Assignment (admin only if no due tasks) -->
+                    <a href="" class="btn btn-sm btn-danger"><i class="fa-solid fa-circle-xmark"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

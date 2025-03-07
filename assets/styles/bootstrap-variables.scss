@@ -1,0 +1,14 @@
+$primary: rgb(22, 68, 121);
+$secondary: #fe6100;
+$light: #d2f19c;
+$warning: #ffca82;
+$dark: #3c3939;
+
+// Variables spécifiques à la navbar
+$navbar-dark-color: rgba(255, 255, 255, 0.9);
+$navbar-dark-hover-color: $secondary;
+$navbar-dark-active-color: $secondary;
+
+// Variables pour les liens actifs
+$nav-link-hover-color: $secondary;
+$nav-link-active-color: $secondary;

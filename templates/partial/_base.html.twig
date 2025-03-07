@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="light dark">
+        {% block prefetch %}<meta name="turbo-prefetch" content="false">{% endblock %}
+        <title>
+            {% block title %}Template Base{% endblock %}
+        </title>
+        {% block stylesheets %}{% endblock %}
+        {% block javascripts %}
+            {% block importmap %}{{ importmap("app") }}{% endblock %}
+            <script src="https://kit.fontawesome.com/b834d02d9a.js"
+                    crossorigin="anonymous"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block header %}{{ include("partial/_header.html.twig") }}{% endblock %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show"
+                     role="alert">
+                    {{ message }}
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <main class="container-fluid rounded row p-0 m-0">
+            {% block main %}{% endblock %}
+        </main>
+    </body>
+</html>

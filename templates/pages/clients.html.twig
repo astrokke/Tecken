@@ -1,0 +1,103 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+    <div class="container">
+        <turbo-frame id="main-client">
+        <div class="row m-5 mt-3">
+            {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                {{ include("partial/client/_btn_add_client.html.twig") }}
+            {% endif %}
+            {% for client in clients %}
+                <turbo-frame id="client-{{ client.id }}">
+                <div class="col-12 mb-5">
+                    <section class="card" aria-labelledby="client-heading-{{ client.id }}">
+                        {{ include("partial/client/_header_clients.html.twig") }}
+                        <div class="collapse" id="collapseClient{{ client.id }}">
+                            <div class="card-body">
+                                <turbo-frame id="card-interlocutors-{{ client.id }}">
+                                {{ include("partial/client/_card_clients.html.twig") }}
+                                {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                                    <hr aria-hidden="true">
+                                    <div class='text-center mt-4'>
+                                        <button type='button'
+                                                data-bs-toggle="offcanvas"
+                                                data-bs-target="#interlocutorFormOffcanvas-{{ client.id }}"
+                                                aria-controls="interlocutorFormOffcanvas-{{ client.id }}"
+                                                class="btn borderfont-weight-bold btn btn-primary addbutton">
+                                            <i class="fa-solid fa-plus mx-3" aria-hidden="true"></i>
+                                            Ajouter un interlocuteur
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                </turbo-frame>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                    <div class="offcanvas w-50 offcanvas-start"
+                         data-bs-scroll="true"
+                         tabindex="-1"
+                         id="editClientOffcanvas-{{ client.id }}"
+                         aria-labelledby="editClientOffcanvasLabel-{{ client.id }}">
+                        <div class="offcanvas-header">
+                            <h2 class="offcanvas-title text-center" id="editClientOffcanvasLabel-{{ client.id }}">Modifier Client</h2>
+                            <button type="button"
+                                    class="btn-close text-reset"
+                                    data-bs-dismiss="offcanvas"
+                                    aria-label="Close">
+                                <span class="visually-hidden">Fermer</span>
+                            </button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <turbo-frame id="client-edit-frame-{{ client.id }}" src="{{ path('editClient', {id: client.id}) }}">
+                            </turbo-frame>
+                        </div>
+                    </div>
+                    <div class="offcanvas w-50 offcanvas-start"
+                         tabindex="-1"
+                         data-bs-scroll="true"
+                         id="interlocutorFormOffcanvas-{{ client.id }}"
+                         aria-labelledby="interlocutorFormOffcanvasLabel-{{ client.id }}">
+                        <div class="offcanvas-header">
+                            <h2 class="offcanvas-title"
+                                id="interlocutorFormOffcanvasLabel-{{ client.id }}">Ajouter un interlocuteur</h2>
+                            <button type="button"
+                                    class="btn-close text-reset"
+                                    data-bs-dismiss="offcanvas"
+                                    aria-label="Close">
+                                <span class="visually-hidden">Fermer</span>
+                            </button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <turbo-frame id="interlocutor-add-frame-{{ client.id }}" src="{{ path('addInterlocutor', {clientId: client.id}) }}">
+                            </turbo-frame>
+                        </div>
+                    </div>
+                {% endif %}
+                </turbo-frame>
+                {% for activity in client.activities %}
+                    <div class="offcanvas w-50 offcanvas-end"
+                         tabindex="-1"
+                         id="activityOffcanvas{{ activity.id }}"
+                         aria-labelledby="activityOffcanvasLabel{{ activity.id }}">
+                        <div class="offcanvas-header">
+                            <h2 class="offcanvas-title" id="activityOffcanvasLabel{{ activity.id }}">Détails de l'activité</h2>
+                            <button type="button"
+                                    class="btn-close text-reset"
+                                    data-bs-dismiss="offcanvas"
+                                    aria-label="Close">
+                                <span class="visually-hidden">Fermer</span>
+                            </button>
+                        </div>
+                        <div class="offcanvas-body" id="activityOffcanvasBody{{ activity.id }}">
+                            <turbo-frame id="client-activity-details-{{ activity.id }}" src="{{ path('activityDetails', {id: activity.id}) }}">
+                            </turbo-frame>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        </turbo-frame>
+    </div>
+{% endblock %}

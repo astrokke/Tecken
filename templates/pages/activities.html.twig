@@ -1,0 +1,75 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+    <div class="container">
+        <turbo-frame id="main-activity">
+        <div class="d-flex justify-content-start my-5">
+            {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                <div class="justify-content-around">
+                    <button type="button"
+                            class="btn btn-primary addbutton"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasAddActivity"
+                            aria-controls="offcanvasAddActivity"
+                            aria-expanded="false"
+                            aria-label="Ajouter une nouvelle activité">Nouvelle Activité</button>
+                    <div class="offcanvas offcanvas-start w-50"
+                         data-bs-scroll="true"
+                         tabindex="-1"
+                         id="offcanvasAddActivity"
+                         aria-labelledby="offcanvasAddActivityLabel"
+                         aria-hidden="true">
+                        <div class="offcanvas-header position-relative">
+                            <h5 class="offcanvas-title text-center w-100"
+                                id="offcanvasAddActivityLabel">Ajout d'une activité</h5>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="offcanvas"
+                                    aria-label="Fermer"></button>
+                        </div>
+                        <div class="offcanvas-body" style="margin: 0; padding:0;">
+                            <turbo-frame id="frameActivityForm" src="{{ path("addActivity") }}">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Chargement...</span>
+                            </div>
+                            </turbo-frame>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="container" style="max-width: initial;">
+            <div class="row mt-3" data-controller="activity-filter">
+                <!-- Aside Section -->
+                <aside class="col-md-3 mb-4">
+                    <div class="list-group" role="group" aria-label="Filtres des activités">
+                        <label class="list-group-item" aria-label="Filtrer par activités internes">
+                            <input type="checkbox"
+                                   id="toggle-internal"
+                                   data-action="change->activity-filter#toggle"
+                                   aria-checked="false" />
+                            Activités internes
+                        </label>
+                        <label class="list-group-item" aria-label="Filtrer par activités externes">
+                            <input type="checkbox"
+                                   id="toggle-external"
+                                   data-action="change->activity-filter#toggle"
+                                   aria-checked="false" />
+                            Activités externes
+                        </label>
+                    </div>
+                </aside>
+                <!-- SECTION: Liste des activités -->
+                <div class="col-12 col-lg-9">
+                    <turbo-frame id="activity-list">
+                    {% for activityData in activities %}
+                        {% set activity = activityData.activity %}
+                        {{ include("partial/activity/_card.html.twig") }}
+                    {% endfor %}
+                    </turbo-frame>
+                </div>
+            </div>
+        </div>
+        </turbo-frame>
+    </div>
+{% endblock %}

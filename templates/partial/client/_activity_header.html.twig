@@ -1,0 +1,102 @@
+<div class="d-flex flex-lg-row m-3 mt-0 mb-0 accordion-item border-bottom-0">
+    <div class="card shadow w-100 col-12 col-lg-11 me-lg-2 d-flex flex-column flex-lg-row mb-lg-0 accordion-header"
+         style="background-color: #f8f8f8">
+        <div class="col m-3 align-content-center">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center mb-3 mb-lg-0">
+                <div class="col-12 col-lg-4 mb-2 mb-lg-0 btngroupe">
+                    <h2 class="h5 mb-0">
+                        <strong>{{ activity.name }}</strong>
+                    </h2>
+                </div>
+                <div class="col-12 col-lg-4 mb-2 mb-lg-0">
+                    <p class="mb-0">
+                        Date de début : <time datetime="{{ activity.startDate|date("Y-m-d") }}">{{ activity.startDate|date("d/m/Y") }}</time>
+                    </p>
+                </div>
+                <div class="col-12 col-lg-2">
+                    <div class="progress mb-2 w-100"
+                         style="height: 1vw"
+                         aria-label="Progression de l'activité">
+                        <div class="progress-bar {{ progressClass }}"
+                             role="progressbar"
+                             style="width: {{ progress }}%"
+                             aria-valuenow="{{ progress }}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">{{ progress|number_format(0) }}%</div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center mt-3 mt-lg-0">
+                <div class="align-items-center col-12 col-lg-4 mb-2 mb-lg-0">
+                    {% if activity.client is not null %}
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0 fs-6">{{ activity.client.socialReason }}</p>
+                            <div class="collaborator-wrapper m-1"
+                                 data-name="{{ activity.client.socialReason }}">
+                                <img src="{{ asset('upload/' ~ activity.client.image) }}"
+                                     alt="Logo de {{ activity.client.socialReason }}"
+                                     class="rounded-circle border border-2 border-secondary ms-3"
+                                     style="width: 3rem;
+                                            height: 3rem">
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="bg-light p-2 rounded"
+                           style="width: fit-content;
+                                  font-size: 0.875rem">{{ activity.typeOfActivity }}</p>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-lg-4 mb-2 mb-lg-0">
+                    {% if activity.endDate is empty %}
+                        <p class="mb-0">Date de fin : Non renseigné</p>
+                    {% else %}
+                        {% if activity.endDate|date('d/m/Y') > 'now'|date('d/m/Y') %}
+                            <p class="mb-0">
+                                Date de fin : <time datetime="{{ activity.endDate|date("Y-m-d") }}">{{ activity.endDate|date("d/m/Y") }}</time>
+                            </p>
+                        {% else %}
+                            <p class="mb-0" style="color:red;">
+                                Date de fin : <time datetime="{{ activity.endDate|date("Y-m-d") }}">{{ activity.endDate|date("d/m/Y") }}</time>
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="col-12 col-lg-2 text-left text-lg-center">
+                    Tâches : <span aria-label="Tâches terminées">{{ taskCount.done }}</span>/<span aria-label="Total des tâches">{{ taskCount.total }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-auto align-content-center">
+            <div class="bold">
+                {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                    <button type="button"
+                            class="accordion-button collapsed"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapse_{{ activity.id }}"
+                            aria-expanded="false"
+                            aria-controls="flush-collapse_{{ activity.id }}"
+                            aria-label="Afficher/Masquer les détails de l'activité"></button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex align-items-center ms-2">
+        {% if is_granted('ROLE_DIRECTEUR') or is_granted('ROLE_MANAGER') %}
+            {% if activity.tasks is not empty %}
+                <i class="fa-solid fa-circle-xmark"
+                   style="color: #c0bfbc"
+                   aria-hidden="true"></i>
+            {% else %}
+                <a href="{{ path('deleteActivity', {id: activity.id}) }}"
+                   data-turbo-frame="activity-list"
+                   class="d-flex align-items-center"
+                   aria-label="Supprimer l'activité">
+                    <i class="fa-solid fa-circle-xmark"
+                       style="color: #e01b24"
+                       aria-hidden="true"></i>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+

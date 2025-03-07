@@ -1,0 +1,31 @@
+<nav class="col-md-9 d-flex justify-content-around align-items-center navbar navbar-expand-md" {{ stimulus_controller("nav") }}>
+
+	<div class="collapse navbar-collapse" id="navbarMenu" data-nav-target="menu">
+		<div class="navbar-nav col-12 d-flex flex-wrap justify-content-around align-items-center">
+			<a href="{{ path("dashboard") }}" class="nav-link font-weight-bold py-2 px-2 px-md-4 d-flex align-items-center" data-nav-target="links">
+				<i class="fa-solid fa-list-check fa-lg me-1"></i>
+				<span>Dashboard</span>
+			</a>
+			<a href="{{ path("viewPlanning") }}" class="nav-link font-weight-bold py-2 px-2 px-md-4 d-flex align-items-center" data-nav-target="links">
+				<i class="fa-solid fa-calendar fa-lg me-1"></i>
+				<span>Planning</span>
+			</a>
+			<a href="{{ path("viewMacroPlanning") }}" class="nav-link font-weight-bold py-2 px-2 px-md-4 d-flex align-items-center" data-nav-target="links">
+				<i class="fa-solid fa-calendar fa-lg me-1"></i>
+				<span>Macro Planning</span>
+			</a>
+			<a href="{{ path("viewClients") }}" class="nav-link font-weight-bold py-2 px-2 px-md-4 d-flex align-items-center" data-nav-target="links">
+				<i class="fa-solid fa-user-tie fa-lg me-1"></i>
+				<span>Clients</span>
+			</a>
+			<a href="{{ path("viewActivities") }}" class="nav-link font-weight-bold py-2 px-2 px-md-4 d-flex align-items-center" data-nav-target="links">
+				<i class="fa-regular fa-calendar-check fa-lg me-1"></i>
+				<span>Activités</span>
+			</a>
+			<a href="{{ path("viewUsers") }}" class="nav-link font-weight-bold py-2 px-2 px-md-4 d-flex align-items-center" data-nav-target="links">
+				<i class="fa-solid fa-user fa-lg me-1"></i>
+				<span>Utilisateurs</span>
+			</a>
+		</div>
+	</div>
+</nav>

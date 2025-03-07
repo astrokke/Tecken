@@ -1,0 +1,90 @@
+{% extends 'partial/_base.html.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block main %}
+    <section class="w-100 h-100 rounded shadow-lg pt-1 mb-5 bg-body-tertiary border-secondary-subtle d-flex flex-column">
+        {{ include("partial/client/_header_clientStat.html.twig") }}
+        <!-- Background banner with search -->
+        <!-- <div class="mt-3 bg-light py-3 shadow-sm rounded"> -->
+        <!-- <div class="container-fluid d-flex justify-content-between align-items-center"> -->
+        <!--     <!-- Search bar -->
+        <!--     <form method="get" -->
+        <!--           action="{{ path('statTask', {id: activity.id}) }}" -->
+        <!--           class="flex-grow-1" -->
+        <!--           style="max-width: 300px"> -->
+        <!--         <input type="text" -->
+        <!--                name="search" -->
+        <!--                class="form-control rounded-pill" -->
+        <!--                placeholder="Rechercher une tâche" -->
+        <!--                value="{{ search ?? '' }}"> -->
+        <!--         <button type="submit" class="btn btn-primary ms-2">Rechercher</button> -->
+        <!--     </form> -->
+        <!-- </div> -->
+        <!-- </div> -->
+        <!-- Total information -->
+        <div class="mt-4 px-3 d-flex justify-content-between align-items-center">
+            <div class="col-10">
+                <h3 class="fw-bold">Total</h3>
+                <span class="text-muted">{{ periodLabel }}</span>
+                {% if tasksDto is empty %}
+                    <h4 class="text-primary">0 €</h4>
+                {% else %}
+                    <h4 class="text-primary">{{ tasksDto[0].totalMonth }}€</h4>
+                {% endif %}
+            </div>
+            <div class="col-2">
+                <div class="btn-group w-100">
+                    <a href="{{ path('statTask', {id: activity.id, monthOffset: monthOffset - 1}) }}"
+                       class="btn btn-outline-primary btn-sm"><</a>
+                    <a href="{{ path('statTask', {id: activity.id, monthOffset: 0}) }}"
+                       class="btn btn-outline-primary btn-sm">Mois</a>
+                    <a href="{{ path('statTask', {id: activity.id, monthOffset: monthOffset + 1}) }}"
+                       class="btn btn-outline-primary btn-sm">></a>
+                </div>
+            </div>
+        </div>
+        <!-- Tables section -->
+        {% set states = {"Non débuté": "primary", "En cours": "warning", "Terminé": "success", "Annulé": "danger"} %}
+        {% for status, color in states %}
+            {% set filtered_tasks = tasksDto|filter(task => task.state == status) %}
+            <div class="card mt-4">
+                <div class="card-header bg-{{ color }} text-white">Tâche {{ status }}</div>
+                <table class="table table-striped mb-0 {% if status == 'Annulé' %}text-decoration-line-through{% endif %}">
+                    <thead>
+                        <tr>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Tâche</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Prénom / Nom</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Date début</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Durée Réalisée</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Taux journalier</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Total HT</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">TVA</th>
+                            <th style="background-color: #f0f0f0;" class="text-muted">Total TTC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in filtered_tasks %}
+                            <tr>
+                                <td style="background-color: #f0f0f0;">{{ task.task }}</td>
+                                <td style="width: 10%; background-color: #f0f0f0;">{{ task.date }}</td>
+                                <td style="background-color: #f0f0f0;">
+                                    <span class="badge bg-success rounded-pill p-2"
+                                          style="font-weight: bold;
+                                                 color: white">{{ task.fullName }}</span>
+                                </td>
+                                <td style="background-color: #f0f0f0;">{{ task.duration }} H</td>
+                                <td style="background-color: #f0f0f0;">{{ task.tjm }} €/h</td>
+                                <td style="background-color: #f0f0f0;">{{ task.totalHT }} €</td>
+                                <td style="background-color: #f0f0f0;">{{ task.tva }} %</td>
+                                <td style="background-color: #f0f0f0;">{{ task.totalTTC }} €</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">Aucune tâche pour ce statut.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

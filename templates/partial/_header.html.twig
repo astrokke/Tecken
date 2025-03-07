@@ -1,0 +1,62 @@
+<header class="navbar navbar-expand-md navbar-dark bg-primary border-bottom py-0">
+	<div
+		class="container-fluid " style="padding-left: 0px !important;">
+		<!-- Logo -->
+		<a href="{{ path('dashboard') }}" class="navbar-brand bg-white d-flex align-items-center">
+			<img src="{{ asset("../assets/img/tecken_full.webp") }}" alt="Logo" class="img-fluid" style="max-height: 50px ">
+		</a>
+
+		<!-- Burger menu -->
+		<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navigation -->
+		<div class="collapse navbar-collapse" id="mainNav">
+			<ul class="navbar-nav w-100 justify-content-around align-items-center">
+				<li class="nav-item">
+					<a href="{{ path('dashboard') }}" class="nav-link d-flex align-items-center p-3 {{ app.current_route == 'dashboard' ? 'active' : '' }}" data-nav-target="links">
+						<i class="fa-solid fa-list-check fa-fw me-2"></i>
+						<span>Dashboard</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('viewPlanning') }}" class="nav-link d-flex align-items-center p-3 {{ app.current_route == 'viewPlanning' ? 'active' : '' }}" data-nav-target="links">
+						<i class="fa-solid fa-calendar fa-fw me-2"></i>
+						<span>Planning</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('viewMacroPlanning') }}" class="nav-link d-flex align-items-center p-3 {{ app.current_route == 'viewMacroPlanning' ? 'active' : '' }}" data-nav-target="links">
+						<i class="fa-solid fa-chart-line fa-fw me-2"></i>
+						<span>Macro Planning</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('viewClients') }}" class="nav-link d-flex align-items-center p-3 {{ app.current_route == 'viewClients' ? 'active' : '' }}" data-nav-target="links">
+						<i class="fa-solid fa-user-tie fa-fw me-2"></i>
+						<span>Clients</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('viewActivities') }}" class="nav-link d-flex align-items-center p-3 {{ app.current_route == 'viewActivities' ? 'active' : '' }}" data-nav-target="links">
+						<i class="fa-regular fa-calendar-check fa-fw me-2"></i>
+						<span>Activités</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a href="{{ path('viewUsers') }}" class="nav-link d-flex align-items-center p-3 {{ app.current_route == 'viewUsers' ? 'active' : '' }}" data-nav-target="links">
+						<i class="fa-solid fa-users fa-fw me-2"></i>
+						<span>Utilisateurs</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<!-- User section -->
+		<div class="d-none d-md-flex align-items-center ms-auto">
+			{{ render(controller('App\\Controller\\DashboardController::getNotifications')) }}
+			{{ include("partial/_drop_down.html.twig") }}
+		</div>
+	</div>
+</header>

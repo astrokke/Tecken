@@ -1,0 +1,57 @@
+<div class="card-header card shadow d-flex flex-column flex-md-row clientlist">
+    <div class="col-12 me-5 col-md-1 d-flex flex-row flex-md-column justify-content-center align-items-center align-items-md-start mt-3 mt-md-0">
+        {% if client.image %}
+        <img src="{{ asset('upload/' ~ client.image) }}"
+             class="border rounded border-2 border-secondary"
+             alt="Logo de {{ client.socialReason }}" />
+        {% endif %}
+    </div>
+    <div class="col-12 col-md-8">
+        <h3 id="client-name-{{ client.id }}">{{ client.socialReason }}</h3>
+        <address>
+            <p>{{ client.adress }}</p>
+            <p>
+                 {{ client.phoneNumber }}
+               
+            </p>
+            <p>
+                {{ client.mail }}
+                 
+            </p>
+        </address>
+    </div>
+    {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+    <div class="col-12 col-md-1 btngroupe d-flex flex-row flex-md-column justify-content-center align-items-center align-items-md-start mt-3 mt-md-0">
+        <button data-bs-toggle="offcanvas"
+                data-bs-target="#editClientOffcanvas-{{ client.id }}"
+                class="btn btn-warning me-2 me-md-0 mb-md-2"
+                aria-label="Modifier {{ client.socialReason }}">
+            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+        </button>
+        {% if client.activities and client.interlocutors is not empty %}
+        <button class="btn btn-disable" disabled aria-label="Supprimer (désactivé)">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i>
+        </button>
+        {% else %}
+        <a href="{{ path('deleteClient', {id: client.id}) }}"
+           data-turbo-frame="_top"
+           class="btn btn-danger"
+           aria-label="Supprimer {{ client.socialReason }}">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="col-12 col-md-2 d-flex justify-content-center align-items-center mt-3 mt-md-0">
+        <button class="btn btn-link p-0"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseClient{{ client.id }}"
+                aria-expanded="false"
+                aria-controls="collapseClient{{ client.id }}"
+                aria-label="Afficher plus de détails sur {{ client.socialReason }}">
+            <i class="fa-solid fa-chevron-down transition-rotate" aria-hidden="true"></i>
+            <span class="visually-hidden">Afficher plus de détails</span>
+        </button>
+    </div>
+</div>

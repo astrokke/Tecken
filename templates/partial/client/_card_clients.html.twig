@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-12 col-md-6 border-md-right mb-4 mb-md-0">
+        <h3 class="mb-3">Interlocuteurs</h3>
+        <ul class="list-unstyled">
+            {% for interlocutor in client.interlocutors %}
+            <li>
+                <turbo-frame id="interlocutor-{{ interlocutor.id }}">
+                    <div class="row interlocutorListe border p-1 rounded mb-3">
+                        <div class="col-12 col-sm-5">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-user" aria-hidden="true"></i>
+                                    <span class="sr-only">Nom :</span>
+                                    {{ interlocutor.firstName }} {{ interlocutor.lastName }}
+                                </p>
+                                <p class="card-text">
+                                    <span class="sr-only">Poste :</span>
+                                    {{ interlocutor.job }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                                    <span class="sr-only">Téléphone :</span>
+                                    {{ interlocutor.phoneNumber }}
+                                </p>
+                                <p class="card-text">
+                                    <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                                    <span class="sr-only">Email :</span>
+                                   {{ interlocutor.mail }}
+                                </p>
+                            </div>
+                        </div>
+                        {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+                        <div class="col-12 col-sm-1 btngroupe d-flex justify-content-end align-items-center">
+                            <a href="{{ path('editInterlocutor', {id: interlocutor.id}) }}"
+                               data-turbo-frame="interlocutor-{{ interlocutor.id }}"
+                               data-turbo-method="post"
+                               class="btn btn-warning me-2 btn-sm"
+                               aria-label="Modifier {{ interlocutor.firstName }} {{ interlocutor.lastName }}">
+                                <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                            </a>
+                            <a href="{{ path('deleteInterlocutor', {id: interlocutor.id}) }}"
+                               data-turbo-frame="card-interlocutors-{{ client.id }}"
+                               class="btn btn-danger btn-sm"
+                               aria-label="Supprimer {{ interlocutor.firstName }} {{ interlocutor.lastName }}">
+                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </turbo-frame>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-12 col-md-6 clientActivity">
+        <h3 class="mb-3">Activités</h3>
+        <ul class="list-unstyled">
+            {% for activity in client.activities %}
+            <li>
+                <div data-bs-toggle="offcanvas"
+                     data-bs-target="#activityOffcanvas{{ activity.id }}"
+                     aria-controls="activityOffcanvas{{ activity.id }}"
+                     tabindex="0"
+                     role="button"
+                     aria-haspopup="dialog">
+                    <div class="row p-1 border border-2 interlocutorListe rounded mb-3">
+                        <div class="card-body cursor-pointer" style="padding: 0.5rem;">
+                            <h4 class="card-title h5">{{ activity.name }}</h4>
+                            <p class="card-text">{{ activity.description }}</p>
+                            <p>Type d'activité : {{ activity.typeOfActivity }}</p>
+                            <p>Date de début : <time datetime="{{ activity.startDate|date("Y-m-d") }}">{{ activity.startDate|date("d/m/Y") }}</time></p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="m-0 p-0" {{ stimulus_controller("interactive_form") }}>
+    {{ form_start(form, {attr: {'data-interactive-form-target': 'form' }}) }}
+        <div class="modal-header row w-100">
+            <div class="d-flex col-8 text-start p-0 align-items-end">
+                <h3 class="me-2 mb-0 text-primary">{{ milestone.activityLabel }}:</h3>
+                <div class="interactive-form-field">
+                    {{ form_label(form.label) }}
+                    {{ form_widget(form.label) }}
+                </div>
+            </div>
+            <p class="h3 col-4 text-end">{{ milestone.percentCompletion|number_format(0) }}%</p>
+        </div>
+        <div class="modal-body w-100">
+            <div class="row">
+                <p class="col-6 w-50 h5">Date de début</p>
+                <div class="col-6 w-50 text-end text-primary interactive-form-field">
+                    {{ form_label(form.startDate) }}
+                    {{ form_widget(form.startDate) }}
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-6 w-50 h5">Date de fin</p>
+                <div class="col-6 w-50 text-end text-primary interactive-form-field">
+                    {{ form_label(form.dateEnd) }}
+                    {{ form_widget(form.dateEnd) }}
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>
+<div class="accordion" id="accordionExample">
+    <turbo-frame id="task-form" src="{{ path('interactiveTaskForm', {id: milestone.activityId, milestoneId: milestone.milestoneId}) }}">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Chargement...</span>
+    </div>
+    </turbo-frame>
+</div>
+<hr>
+<turbo-frame id="ms-tasks-{{ activity.id }}">
+<div class="accordion-body d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3">
+    <h3 class="mb-2 mb-sm-0">Tâches</h3>
+    {% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
+        <div class="text-center">
+            <a href="{{ path('addClientTask', {id: activity.id}) }}"
+               class="btn btn-primary addbutton"
+               aria-label="Ajouter une nouvelle tâche">
+                <i class="fa-solid fa-plus mx-2" aria-hidden="true"></i>Ajouter
+            </a>
+        </div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col-12" style="overflow-y: auto;">
+        <turbo-frame id="card-activity-{{ activity.id }}">
+        <div class="row">
+            {% for task in tasks %}
+                {{ include('partial/client/_task_card.html.twig', {
+                                task: task,
+                                plannedTasks: activityData.plannedTasks,
+                                taskCollabs: activityData.taskCollabs,
+                                allCollaborators: allCollaborators
+                                }) }}
+            {% endfor %}
+        </div>
+        <!-- Boutons de pagination -->
+        <nav aria-label="Pagination des tâches"
+             class="d-flex justify-content-end mt-3 align-items-center"
+             style="padding-right:20px">
+            {% if currentPage > 1 %}
+                <a href="{{ path('clientActivityTasks', {id: activity.id, page: currentPage - 1}) }}"
+                   data-turbo-frame="card-activity-{{ activity.id }}"
+                   class="btn btn-primary me-2"
+                   aria-label="Page précédente">
+                    <i class="fa-solid fa-caret-left" aria-hidden="true"></i>
+                </a>
+            {% else %}
+                <button class="btn btn-secondary me-2"
+                        disabled
+                        aria-label="Page précédente (désactivé)">
+                    <i class="fa-solid fa-caret-left" aria-hidden="true"></i>
+                </button>
+            {% endif %}
+            <span class="mx-2" aria-current="page">Page {{ currentPage }} sur {{ totalPages }}</span>
+            {% if currentPage < totalPages %}
+                <a href="{{ path('clientActivityTasks', {id: activity.id, page: currentPage + 1}) }}"
+                   data-turbo-frame="card-activity-{{ activity.id }}"
+                   class="btn btn-primary ms-2"
+                   aria-label="Page suivante">
+                    <i class="fa-solid fa-caret-right" aria-hidden="true"></i>
+                </a>
+            {% else %}
+                <button class="btn btn-secondary ms-2"
+                        disabled
+                        aria-label="Page suivante (désactivé)">
+                    <i class="fa-solid fa-caret-right" aria-hidden="true"></i>
+                </button>
+            {% endif %}
+        </nav>
+        </turbo-frame>
+    </div>
+</div>
+</turbo-frame>

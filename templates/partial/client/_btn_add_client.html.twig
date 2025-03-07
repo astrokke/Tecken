@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-center justify-content-md-start my-4">
+    <button class="btn btn-primary addbutton"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#clientFormOffcanvas"
+            aria-controls="clientFormOffcanvas"
+            aria-haspopup="dialog">
+        Nouveau Client
+    </button>
+</div>
+
+<div class="offcanvas w-50 offcanvas-start"
+     data-bs-scroll="true"
+     tabindex="-1"
+     id="clientFormOffcanvas"
+     aria-labelledby="clientFormOffcanvasLabel"
+     role="dialog"
+     aria-modal="true">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title text-center" id="clientFormOffcanvasLabel">Formulaire Client</h2>
+        <button type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Fermer le formulaire client">
+            <span class="visually-hidden">Fermer</span>
+        </button>
+    </div>
+    <div class="offcanvas-body">
+        <turbo-frame id="client-add-frame" src="{{ path("addClient") }}">
+            <!-- Le contenu du formulaire sera chargé ici -->
+        </turbo-frame>
+    </div>
+</div>

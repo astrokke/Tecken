@@ -1,0 +1,27 @@
+{
+  "name": "tecktime",
+  "version": "1.0.0",
+  "description": "## AssetMapper Bundle",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeckenESN/teckTime.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TeckenESN/teckTime/issues"
+  },
+  "homepage": "https://github.com/TeckenESN/teckTime#readme",
+  "dependencies": {
+    "chart.js": "^4.4.4"
+  }
+}

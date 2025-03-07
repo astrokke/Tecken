@@ -1,0 +1,36 @@
+<!-- SECTION: Carte d'activité -->
+{% set activity = activityData.activity %}
+<turbo-frame id="client-activity-details-{{ activity.id }}">
+<div class="activity-item mb-4 mb-lg-5 me-lg-5 "
+     id="activity-details"
+     data-controller="task-toggle"
+     data-activity-filter-target="activityItem"
+     data-is-internal="{{ activity.typeOfActivity == 'Interne' ? 'true' : 'false' }}"
+     data-is-external="{{ activity.typeOfActivity != 'Interne' ? 'true' : 'false' }}">
+    <div>
+        <!-- SECTION: En-tête de la carte d'activité -->
+        <turbo-frame id="activity-{{ activity.id }}">
+        <div class="col-12 accordion accordion-flush"
+             id="accordionFlushActivity_{{ activity.id }}">
+            {{ include('partial/client/_activity_header.html.twig', {
+                        activity: activityData.activity,
+                        progress: activityData.progress,
+                        progressClass: activityData.progressClass,
+                        taskCount: activityData.taskCount
+                        }) }}
+            <!-- SECTION: Corps de la carte d'activité (liste des tâches) -->
+            <div class="d-flex flex-column flex-lg-row m-2 px-2 px-lg-0 mx-lg-3 mt-0 ">
+                <div class="col-12 w-100 col-lg-11 me-lg-4 d-flex flex-column">
+                    <div id="flush-collapse_{{ activity.id }}"
+                         class="accordion-collapse collapse card-body border border-bottom-3 pb-3"
+                         data-bs-parent="#accordionFlushActivity{{ activity.id }}">
+                        <turbo-frame id="client-activity-{{ activity.id }}" src="{{ path('clientActivityTasks', {id: activity.id}) }}">
+                        </turbo-frame>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </turbo-frame>
+    </div>
+</div>
+</turbo-frame>

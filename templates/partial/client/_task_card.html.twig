@@ -1,0 +1,15 @@
+<div class="col-md-12 taskContainer" data-controller="task">
+    <turbo-frame id="client-card-tasks-{{ task.activity.id }}">
+    <div class="accordion taskItem accordion-flush border rounded m-2 p-2 {% if task.state.label == 'En cours' %}task-in-progress{% elseif task.state.label == 'Terminé' %}task-completed{% elseif task.state.label == 'Non débuté' %}task-not-started{% else %}task-cancelled{% endif %}" id="accordionFlushTask{{ task.id }}">
+        <div class="accordion-item">
+            <turbo-frame id="client-collaborator-list-{{ task.id }}">
+            {{ include('partial/client/_task_collaborator_list.html.twig', {
+                        task: task,
+                        taskCollabs: taskCollabs,
+                        allCollaborators: allCollaborators
+                        }) }}
+            </turbo-frame>
+        </div>
+    </div>
+    </turbo-frame>
+</div>

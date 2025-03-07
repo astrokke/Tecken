@@ -1,0 +1,35 @@
+<section class="container-fluid">
+    <div class="border card card-modern">
+        <div class="row card-body justify-content-between">
+            <div class="col-md-6 d-flex flex-column">
+                <turbo-frame id="personnalAssignment">
+                {{ include("partial/dashboard/_personnalAssignment.html.twig") }}
+                </turbo-frame>
+            </div>
+            <div class="col-md-6 d-flex flex-column">{{ include("partial/dashboard/_myTasksStatistics.html.twig") }}</div>
+        </div>
+        <div class="col-12 mb-3 mt-3">
+            <div class="border card card-modern">
+                <div class="card-body">
+                    <h2 class="mb-3">
+                        <strong>État des tâches</strong>
+                    </h2>
+                    <div class="row">
+                        {% for state, data in taskStatesChart %}
+                            <div class="col-3 d-flex flex-column align-items-center">
+                                <span style="color: {{ data.borderColor }}">{{ state }}</span>
+                                <span>{{ data.percentage }}% - {{ data.stateCount }} tâches</span>
+                                <div class="container-fluid" style="width: 100%; height: 70%;">{{ render_chart(data.chart) }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 d-flex justify-content-center">
+                            <span><strong>Total des tâches : {{ sumMyTasks }}</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,48 @@
+{% extends 'partial/_base.html.twig' %}
+{% block main %}
+    <turbo-frame id="frameTypeOfTask">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="form-container p-4 rounded shadow">
+                    {% if tots is empty %}
+                        <p class="text-muted text-center">Aucun type de tâche disponible.</p>
+                    {% else %}
+                        <div class="list-group">
+                            {% for totData in tots %}
+                                {% set tot = totData.entity %}
+                                {% set canBeDeleted = totData.canBeDeleted %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center p-3 shadow-sm border rounded mb-2">
+                                    <div>
+                                        <span class="fw-bold">{{ tot.label }}</span>
+                                        {% if tot.coefHourRate is not null %}
+                                            <span class="text-muted ms-2"
+                                                  style="cursor:pointer"
+                                                  title="coef taux horaire">({{ tot.coefHourRate }})</span>
+                                        {% endif %}
+                                        <a type="button"
+                                           class="btn btn-sm btn-warning m-1"
+                                           title="Modifier {{ tot.label }}"
+                                           href="{{ path('editTypeOfTask', {id: tot.id}) }}">
+                                            <i class="edit-btn fa-solid fa-edit" style="color:#ffffff"></i>
+                                        </a>
+                                        {% if canBeDeleted %}
+                                            <a class="btn btn-sm btn-danger m-1"
+                                               title="Supprimer {{ tot.label }}"
+                                               data-turbo-frame="activity-list"
+                                               href="{{ path('deleteTypeOfTask', {id: tot.id}) }}">
+                                                <i class="edit-btn fa-solid fa-trash" style="color:#ffffff"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <span class="badge text-dark" style="background-color: {{ tot.color }};">{{ tot.label }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </turbo-frame>
+{% endblock %}

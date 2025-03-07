@@ -1,0 +1,21 @@
+<div class="col-12" id="calendar-container">
+    <div class="card card-modern">
+        <div class="col-12 col-md-4 ms-3 mb-3 mb-md-0">
+            <button class="btn btn-light"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasTaskList"
+                    aria-controls="offcanvasTaskList"
+                    title="Afficher les tâches">
+                <i class="fa-brands fa-wpforms text-dark"></i>
+            </button>
+        </div>
+        <div class="card-body">
+            <div id="calendar" data-calendar-target="calendar"></div>
+        </div>
+    </div>
+</div>
+<script>
+    window.states = {{ statesArray|json_encode|raw }};
+console.log("Available States:", states); // Vérifiez dans la console
+</script>
