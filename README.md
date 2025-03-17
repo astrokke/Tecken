@@ -1,3 +1,98 @@
+TeckTime - Gestion du Temps et des Activités
+ Lien du projet:
+ https://nathan.tecktime.tecken.fr/user/
+ connection user : tecktime-user@diginamic-formation.fr mdp user: D1g1n@m1c34
+ connection admin :tecktime-admin@diginamic-formation.fr mdp admin: D1g1n@m1c34
+ Description du Projet
+
+TeckTime est une application web permettant aux employés de suivre leurs interventions et aux administrateurs de gérer les activités et la facturation.
+ Installation & Lancement
+  Prérequis
+
+    PHP 8+
+    Composer
+    Symfony 6.4
+    npm
+    PostgreeSQL
+
+ Installation
+
+git clone https://github.com/utilisateur/TeckTime.git
+cd TeckTime
+composer install
+npm install
+
+ Configuration
+
+    Modifier les variables de connexion à la base de données.
+    Générer la clé de l’application :
+
+    php bin/console doctrine:database:create
+    php bin/console doctrine:migrations:migrate
+    php bin/console doctrine:fixtures:load
+
+ Démarrer le serveur
+
+symfony server:start
+npm run dev
+
+
+
+## **Cas d’Utilisation (Use Case)**
+
+### **Rôle : Administrateur**
+
+ **Actions possibles** :
+
+crée des activitées
+
+Ajouter/modifier/supprimer un **utilisateur**.
+
+ Ajouter/modifier/supprimer un **client**.
+
+ Créer et gérer les **activités et projets**.
+
+ Suivre l’effort des salariés sur les projets.
+
+ Générer des **rapports et exporter les données** (PDF, CSV).
+
+ **Scénario** :
+
+1. L’admin se connecte via **SSO Microsoft**.
+2. Il accède au tableau de bord et consulte les statistiques.
+3. Il ajoute un nouveau client et lui attribue des activités.
+4. Il vérifie la répartition des tâches et ajuste si besoin.
+5. Il génère un rapport de facturation et l’exporte en PDF.
+
+---
+
+### **Rôle : Utilisateur (Salarié)**
+
+**Objectif** : Suivre et enregistrer ses activités.
+
+ **Actions possibles** :
+
+Se connecter via **SSO Microsoft**.
+
+Consulter son **planning personnel**.
+
+Enregistrer le **temps travaillé** sur une activité.
+
+ il  drag’n drop une tache sur son calendrier 
+
+ Visualiser ses **statistiques personnelles**.
+
+**Scénario** :
+
+1. L’utilisateur se connecte via **SSO Microsoft**.
+2. Il consulte son **planning** et voit ses tâches assignées.
+3. Il démarre une nouvelle activité et enregistre le temps passé.
+
+
+
+
+
+
 # TeckTime
 
 ## AssetMapper Bundle
