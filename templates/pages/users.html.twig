@@ -6,10 +6,12 @@
 		<div class="card shadow-sm mb-4">
 			<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
 				<h3 class="mb-0">Liste des salariés</h3>
+			{% if is_granted('ROLE_MANAGER') or is_granted('ROLE_DIRECTEUR') %}
 				<a href="{{ path("addUser") }}" class="btn btn-sm btn-success">
 					<i class="fa-solid fa-user-plus"></i>
 					Ajouter
 				</a>
+				{% endif%}
 			</div>
 			<div class="card-body">
 				<div class="row">
