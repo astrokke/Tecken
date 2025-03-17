@@ -42,8 +42,10 @@ class UserFormType extends AbstractType
                 'required' => false,
                 'label' => 'Poste',
                 'attr' => ['class' => 'futuristic-input'],
-            ])
-            ->add('roles', ChoiceType::class, [
+            ]);
+        
+            if ($this->security->isGranted('ROLE_MANAGER' or 'ROLE_DIRECTEUR')) {  
+            $builder->add('roles', ChoiceType::class, [
                 'label' => 'Rôles',
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
@@ -54,8 +56,9 @@ class UserFormType extends AbstractType
                 'expanded' => true, // cases à cocher
                 'multiple' => true,
                 'attr' => ['class' => 'futuristic-checkbox-group futuristic-input'],
-            ])
-            ->add('hourRateByDefault', TextType::class, [
+            ]);
+            }
+            $builder->add('hourRateByDefault', TextType::class, [
                 'required' => false,
                 'label' => 'Taux horaire',
                 'attr' => ['class' => 'futuristic-input'],
