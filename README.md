@@ -1,8 +1,8 @@
 TeckTime <br>  Gestion du Temps et des Activités<br>
  Lien du projet:
- https://nathan.tecktime.tecken.fr/user/
- connection user : tecktime-user@diginamic-formation.fr mdp user: D1g1n@m1c34
- connection admin :tecktime-admin@diginamic-formation.fr mdp admin: D1g1n@m1c34
+ https://nathan.tecktime.tecken.fr/user/<br>
+ connection user : tecktime-user@diginamic-formation.fr mdp user: D1g1n@m1c34 <br>
+ connection admin :tecktime-admin@diginamic-formation.fr mdp admin: D1g1n@m1c34<br>
  Description du Projet
 
 TeckTime est une application web permettant aux employés de suivre leurs interventions et aux administrateurs de gérer les activités et la facturation.
