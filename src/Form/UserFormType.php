@@ -17,7 +17,11 @@ use Symfony\Bundle\SecurityBundle\Security;
 class UserFormType extends AbstractType
 {
 
-public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function __construct(private Security $security)
+    {
+        $this->security = $security;
+    }
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('mail', EmailType::class, [
@@ -44,21 +48,21 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
                 'attr' => ['class' => 'futuristic-input'],
             ]);
 
-      
-       if ($this->security->isGranted('ROLE_MANAGER') || $this->security->isGranted('ROLE_DIRECTEUR')) {
-    $builder->add('roles', ChoiceType::class, [
-        'label' => 'Rôles',
-        'choices' => [
-            'Utilisateur' => 'ROLE_USER',
-            'Manager' => 'ROLE_MANAGER',
-            'Directeur' => 'ROLE_DIRECTEUR',
-            'Administrateur' => 'ROLE_ADMIN',
-        ],
-        'expanded' => true, // Affichage sous forme de cases à cocher
-        'multiple' => true,
-        'attr' => ['class' => 'futuristic-checkbox-group futuristic-input'],
-    ]);
-}
+
+        if ($this->security->isGranted('ROLE_MANAGER') || $this->security->isGranted('ROLE_DIRECTEUR')) {
+            $builder->add('roles', ChoiceType::class, [
+                'label' => 'Rôles',
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Manager' => 'ROLE_MANAGER',
+                    'Directeur' => 'ROLE_DIRECTEUR',
+                    'Administrateur' => 'ROLE_ADMIN',
+                ],
+                'expanded' => true, // Affichage sous forme de cases à cocher
+                'multiple' => true,
+                'attr' => ['class' => 'futuristic-checkbox-group futuristic-input'],
+            ]);
+        }
 
         $builder
             ->add('hourRateByDefault', TextType::class, [
@@ -92,4 +96,3 @@ public function buildForm(FormBuilderInterface $builder, array $options): void
         ]);
     }
 }
-
