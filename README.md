@@ -1,3 +1,60 @@
+
+
+## **Cas d’Utilisation (Use Case)**
+
+### **Rôle : Administrateur**
+
+ **Actions possibles** :
+
+crée des activitées
+
+Ajouter/modifier/supprimer un **utilisateur**.
+
+ Ajouter/modifier/supprimer un **client**.
+
+ Créer et gérer les **activités et projets**.
+
+ Suivre l’effort des salariés sur les projets.
+
+ Générer des **rapports et exporter les données** (PDF, CSV).
+
+ **Scénario** :
+
+1. L’admin se connecte via **SSO Microsoft**.
+2. Il accède au tableau de bord et consulte les statistiques.
+3. Il ajoute un nouveau client et lui attribue des activités.
+4. Il vérifie la répartition des tâches et ajuste si besoin.
+5. Il génère un rapport de facturation et l’exporte en PDF.
+
+---
+
+### **Rôle : Utilisateur (Salarié)**
+
+**Objectif** : Suivre et enregistrer ses activités.
+
+ **Actions possibles** :
+
+Se connecter via **SSO Microsoft**.
+
+Consulter son **planning personnel**.
+
+Enregistrer le **temps travaillé** sur une activité.
+
+ il  drag’n drop une tache sur son calendrier 
+
+ Visualiser ses **statistiques personnelles**.
+
+**Scénario** :
+
+1. L’utilisateur se connecte via **SSO Microsoft**.
+2. Il consulte son **planning** et voit ses tâches assignées.
+3. Il démarre une nouvelle activité et enregistre le temps passé.
+
+
+
+
+
+
 # TeckTime
 
 ## AssetMapper Bundle
