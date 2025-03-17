@@ -1,3 +1,41 @@
+TeckTime - Gestion du Temps et des Activités
+ Lien du projet:
+ https://nathan.tecktime.tecken.fr/user/
+ connection user : tecktime-user@diginamic-formation.fr mdp user: D1g1n@m1c34
+ connection admin :tecktime-admin@diginamic-formation.fr mdp admin: D1g1n@m1c34
+ Description du Projet
+
+TeckTime est une application web permettant aux employés de suivre leurs interventions et aux administrateurs de gérer les activités et la facturation.
+ Installation & Lancement
+  Prérequis
+
+    PHP 8+
+    Composer
+    Symfony 6.4
+    npm
+    PostgreeSQL
+
+ Installation
+
+git clone https://github.com/utilisateur/TeckTime.git
+cd TeckTime
+composer install
+npm install
+
+ Configuration
+
+    Modifier les variables de connexion à la base de données.
+    Générer la clé de l’application :
+
+    php bin/console doctrine:database:create
+    php bin/console doctrine:migrations:migrate
+    php bin/console doctrine:fixtures:load
+
+ Démarrer le serveur
+
+symfony server:start
+npm run dev
+
 
 
 ## **Cas d’Utilisation (Use Case)**
